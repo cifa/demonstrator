@@ -10,21 +10,28 @@ import java.util.Set;
  * 
  */
 @Entity
+@Table(name="user")
 public class User implements Serializable, DomainObject {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	private int id;
 
+	@Column(nullable=false, length=45)
 	private String firstName;
 
+	@Column(nullable=false, length=64)
 	private String password;
 
+	@Column(nullable=false, length=1)
 	private String role;
 
+	@Column(nullable=false, length=45)
 	private String surname;
 
+	@Column(nullable=false, length=20)
 	private String username;
 
 	//bi-directional many-to-one association to Comment

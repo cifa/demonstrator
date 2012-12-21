@@ -4,6 +4,6 @@ import org.springframework.stereotype.Repository;
 import uk.ac.edu4all.domain.Treebranch;
 
 @Repository("TreebranchDao")
-public class TreebranchDao extends GenericDaoJpa<Treebranch> {
+public class TreebranchDaoJpa extends GenericDaoJpa<Treebranch> {
 
 }

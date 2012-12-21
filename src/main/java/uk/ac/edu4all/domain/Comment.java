@@ -1,7 +1,10 @@
 package uk.ac.edu4all.domain;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 
 /**
@@ -9,24 +12,33 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="comment")
 public class Comment implements Serializable, DomainObject {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	private int id;
+	
+	private int rating;
 
-	@Lob
+	@Size(min=20, max=250, message="Comment must be between 5 and 250 characters long")
+	@Column(nullable=false, length=250)
 	private String content;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable=false)
+	private Date posted;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="userId")
+	@JoinColumn(name="userId", nullable=false)
 	private User user;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="courseId")
+	@JoinColumn(name="courseId", nullable=false)
 	private Course course;
 
 	public Comment() {
@@ -40,12 +52,28 @@ public class Comment implements Serializable, DomainObject {
 		this.id = id;
 	}
 
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	public String getContent() {
 		return this.content;
 	}
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Date getPosted() {
+		return posted;
+	}
+
+	public void setPosted(Date posted) {
+		this.posted = posted;
 	}
 
 	public User getUser() {

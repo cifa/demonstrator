@@ -12,8 +12,10 @@ public class EnrollmentPK implements Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@Column(unique=true, nullable=false)
 	private int userId;
 
+	@Column(unique=true, nullable=false)
 	private int courseId;
 
 	public EnrollmentPK() {

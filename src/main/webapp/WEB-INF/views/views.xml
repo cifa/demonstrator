@@ -5,10 +5,9 @@
   
 <tiles-definitions>
 	<definition name="template.main" template="/WEB-INF/views/main.jsp" />
-	<definition name="home" extends="template.main">
-		<put-attribute name="pageBody" value="/WEB-INF/views/home.jsp" />
-	</definition>
-	<definition name="courseEditor" extends="template.main">
-		<put-attribute name="pageBody" value="/WEB-INF/views/admin/courseEditor.jsp" />
-	</definition>
+	<definition name="home" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/home.jsp" /></definition>
+	<definition name="courseEditor" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/admin/courseEditor.jsp" /></definition>
+	<definition name="courseList" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/courseList.jsp" /></definition>
+	<definition name="courseDetails" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/courseDetails.jsp" /></definition>
+	<definition name="login" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/login.jsp" /></definition>
 </tiles-definitions>    

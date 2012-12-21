@@ -9,18 +9,33 @@
     
     <authentication-manager>
     	<authentication-provider>
+    		<password-encoder hash="sha-256" />
       		<jdbc-user-service data-source-ref="dataSource" 
       			users-by-username-query="SELECT username, password, '1' AS enabled FROM user WHERE username = ?"
       			authorities-by-username-query="SELECT username, role FROM user WHERE username = ?" />
     	</authentication-provider>
   	</authentication-manager>
+	
+	<beans:bean id="loginSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+		<beans:property name="alwaysUseDefaultTargetUrl" value="false" />
+		<beans:property name="useReferer" value="true" />
+	</beans:bean>
+	
+	<beans:bean id="loginFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+		<beans:property name="defaultFailureUrl" value="/course" />
+		<beans:property name="redirectStrategy">
+			<beans:bean class="uk.ac.edu4all.security.StayOnPageRedirectStrategy" />
+		</beans:property>		
+	</beans:bean>
     
-    <http auto-config="true" use-expressions="true">
+    <http use-expressions="true">
     	<form-login 
-    		login-page="/"
-    		authentication-failure-url="/?login_error=t"
+    		login-page="/login"
     		login-processing-url="/static/j_spring_security_check"
-    		always-use-default-target='false' />
+    		authentication-failure-handler-ref="loginFailureHandler"
+    		authentication-success-handler-ref="loginSuccessHandler"
+    	 />
+    	<logout logout-url="/logout" />
     	<session-management invalid-session-url="/">
     		<concurrency-control max-sessions="1" />
     	</session-management>

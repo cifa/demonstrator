@@ -9,23 +9,26 @@ import javax.persistence.*;
  * 
  */
 @Entity
+@Table(name="similarity")
 public class Similarity implements Serializable, DomainObject {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
 	private int id;
 
+	@Column(nullable=false)
 	private float similarityIndex;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="course1")
+	@JoinColumn(name="course1", nullable=false)
 	private Course course1Bean;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="course2")
+	@JoinColumn(name="course2", nullable=false)
 	private Course course2Bean;
 
 	public Similarity() {

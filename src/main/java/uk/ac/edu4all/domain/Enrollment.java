@@ -10,6 +10,7 @@ import java.util.Date;
  * 
  */
 @Entity
+@Table(name="enrollment")
 public class Enrollment implements Serializable, DomainObject {
 	private static final long serialVersionUID = 1L;
 
@@ -19,18 +20,20 @@ public class Enrollment implements Serializable, DomainObject {
 	private int courseRating;
 
 	@Temporal(TemporalType.DATE)
+	@Column(nullable=false)
 	private Date enrolDate;
 
+	@Column(nullable=false, length=32)
 	private String paymentTransactionNo;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name="userId", insertable=false, updatable=false)
+	@JoinColumn(name="userId", nullable=false, insertable=false, updatable=false)
 	private User user;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="courseId", insertable=false, updatable=false)
+	@JoinColumn(name="courseId", nullable=false, insertable=false, updatable=false)
 	private Course course;
 
 	public Enrollment() {
