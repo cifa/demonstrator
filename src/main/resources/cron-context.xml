@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- CRON JOBS SET UP -->
+	
+	<!-- EXPIRED BOOKINGS CLEAN UP -->
+	<bean id="similarityUpdateCronJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<bean class="uk.ac.edu4all.service.EduServiceJpa" />
+		</property>
+		<property name="targetMethod" value="updateSimilarityIndexes" />
+	</bean>
+	<!-- Run every day 1 second after midnight -->
+	<bean id="similarityUpdateTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="similarityUpdateCronJob" />
+		<property name="cronExpression" value="0 0/5 * * * ?" />
+	</bean>
+	
+	<!-- #############################################
+					QUARTZ SCHEDULER
+		 #############################################-->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list><ref bean="similarityUpdateTrigger" /></list>
+		</property>
+	</bean>
+	
+</beans>

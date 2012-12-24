@@ -13,30 +13,32 @@ import javax.persistence.*;
 public class Similarity implements Serializable, DomainObject {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private SimilarityPK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(unique=true, nullable=false)
+	private int id;
 
 	@Column(nullable=false)
 	private float similarityIndex;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="course1", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="course1", nullable=false)
 	private Course course1Bean;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
-	@JoinColumn(name="course2", nullable=false, insertable=false, updatable=false)
+	@JoinColumn(name="course2", nullable=false)
 	private Course course2Bean;
 
 	public Similarity() {
 	}
 
-	public SimilarityPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(SimilarityPK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

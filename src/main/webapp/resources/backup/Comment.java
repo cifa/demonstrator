@@ -1,10 +1,10 @@
 package uk.ac.edu4all.domain;
 
 import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-
-import java.util.Date;
 
 
 /**
@@ -20,27 +20,26 @@ public class Comment implements Serializable, DomainObject {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(unique=true, nullable=false)
 	private int id;
+	
+	private int rating;
 
-	@Size(min=10, max=250, message="Comment must be between 10 and 250 characters long")
+	@Size(min=20, max=250, message="Comment must be between 5 and 250 characters long")
 	@Column(nullable=false, length=250)
 	private String content;
-
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
 	private Date posted;
-
-	@Column(nullable=false)
-	private int rating;
-
-	//bi-directional many-to-one association to Course
-	@ManyToOne
-	@JoinColumn(name="courseId", nullable=false)
-	private Course course;
 
 	//bi-directional many-to-one association to User
 	@ManyToOne
 	@JoinColumn(name="userId", nullable=false)
 	private User user;
+
+	//bi-directional many-to-one association to Course
+	@ManyToOne
+	@JoinColumn(name="courseId", nullable=false)
+	private Course course;
 
 	public Comment() {
 	}
@@ -53,6 +52,14 @@ public class Comment implements Serializable, DomainObject {
 		this.id = id;
 	}
 
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
 	public String getContent() {
 		return this.content;
 	}
@@ -62,27 +69,11 @@ public class Comment implements Serializable, DomainObject {
 	}
 
 	public Date getPosted() {
-		return this.posted;
+		return posted;
 	}
 
 	public void setPosted(Date posted) {
 		this.posted = posted;
-	}
-
-	public int getRating() {
-		return this.rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
-	public Course getCourse() {
-		return this.course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
 	}
 
 	public User getUser() {
@@ -91,6 +82,14 @@ public class Comment implements Serializable, DomainObject {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Course getCourse() {
+		return this.course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
 }

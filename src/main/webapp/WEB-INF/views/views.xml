@@ -2,12 +2,62 @@
 <!DOCTYPE tiles-definitions PUBLIC
       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
-  
+
 <tiles-definitions>
 	<definition name="template.main" template="/WEB-INF/views/main.jsp" />
-	<definition name="home" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/home.jsp" /></definition>
-	<definition name="courseEditor" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/admin/courseEditor.jsp" /></definition>
-	<definition name="courseList" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/courseList.jsp" /></definition>
-	<definition name="courseDetails" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/courseDetails.jsp" /></definition>
-	<definition name="login" extends="template.main"><put-attribute name="pageBody" value="/WEB-INF/views/login.jsp" /></definition>
+	<definition name="home" extends="template.main">
+		<put-attribute name="pageBody" value="/WEB-INF/views/home.jsp" />
+	</definition>
+	<definition name="courseEditor" extends="template.main">
+		<put-attribute name="pageBody"
+			value="/WEB-INF/views/admin/courseEditor.jsp" />
+	</definition>
+	<definition name="courseList" extends="template.main">
+		<put-attribute name="pageBody" value="/WEB-INF/views/courseList.jsp" />
+	</definition>
+	<definition name="courseDetails" extends="template.main">
+		<put-attribute name="pageBody" value="/WEB-INF/views/courseDetails.jsp" />
+	</definition>
+	<definition name="login" extends="template.main">
+		<put-attribute name="pageBody" value="/WEB-INF/views/login.jsp" />
+	</definition>
+	<definition name="template.regform" template="/WEB-INF/views/user/regTemplate.jsp"></definition>
+	<definition name="registrationAddress" extends="template.main">
+		<put-attribute name="pageBody">
+			<definition extends="template.regform">
+				<put-attribute name="formSection"
+					value="/WEB-INF/views/user/regAddress.jsp" />
+				<put-attribute name="formError" value="/WEB-INF/views/formError.jsp"
+					cascade="true">
+				</put-attribute>
+			</definition>
+		</put-attribute>
+	</definition>
+	<definition name="registrationCardDetails" extends="template.main">
+		<put-attribute name="pageBody">
+			<definition extends="template.regform">
+				<put-attribute name="formSection"
+					value="/WEB-INF/views/user/regCard.jsp" />
+				<put-attribute name="formError" value="/WEB-INF/views/formError.jsp"
+					cascade="true">
+				</put-attribute>
+			</definition>
+		</put-attribute>
+	</definition>
+	<definition name="registrationConfirm" extends="template.main">
+		<put-attribute name="pageBody">
+			<definition extends="template.regform">
+				<put-attribute name="formSection"
+					value="/WEB-INF/views/user/regConfirm.jsp" />
+			</definition>
+		</put-attribute>
+	</definition>
+	<definition name="registrationFinished" extends="template.main">
+		<put-attribute name="pageBody">
+			<definition extends="template.regform">
+				<put-attribute name="formSection"
+					value="/WEB-INF/views/user/regCompleted.jsp" />
+			</definition>
+		</put-attribute>
+	</definition>
 </tiles-definitions>    

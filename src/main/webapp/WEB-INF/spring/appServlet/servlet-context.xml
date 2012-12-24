@@ -33,6 +33,10 @@
     <view-controller path="/" view-name="home" />
     <view-controller path="/login" view-name="login" />
     
+    <beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+ 
+	<beans:bean id="rssFeed" class="uk.ac.edu4all.data.RssViewer" />
+    
     <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
 	<!-- View resolver -->

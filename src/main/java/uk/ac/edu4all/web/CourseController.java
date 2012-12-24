@@ -22,10 +22,11 @@ public class CourseController {
 	private String[] courseSortNames = new String[] {"Start Date", "Price", "Duration", "Name"};
 	private String[] commentSortNames = new String[] {"Date & Time", "Rating (Positive First)", "Rating (Negative First)"};
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/course", method=RequestMethod.GET)
 	public String viewCourseList(Model model, @RequestParam(value="cat", required=false) Integer categoryId,
 			@RequestParam(value="sort", required=false) Integer sort) {
-		if(categoryId == null) categoryId =0; 
+		if(categoryId == null) categoryId = 0; 
 		if(sort == null) sort = 0;
 		List<Course> courses = service.getCoursesByCategory(categoryId);
 		switch(sort){
@@ -42,6 +43,7 @@ public class CourseController {
 		return "courseList";
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="/course/{courseId}", method=RequestMethod.GET)
 	public String viewCourseDetails(Model model, @PathVariable int courseId,
 			@RequestParam(value="sort", required=false) Integer sort) {
@@ -57,7 +59,8 @@ public class CourseController {
 			.addAttribute("comment", new Comment())
 			.addAttribute("sortNames", commentSortNames)
 			.addAttribute("sortIndex", sort)
-			.addAttribute("comments", comments);
+			.addAttribute("comments", comments)
+			.addAttribute("recommendations", service.getCourseRecommendations(course, 3));
 		return "courseDetails";
 	}
 	

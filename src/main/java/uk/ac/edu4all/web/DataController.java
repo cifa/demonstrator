@@ -16,16 +16,20 @@ import org.jfree.chart.plot.*;
 import org.jfree.chart.renderer.category.*;
 import org.jfree.data.category.*;
 import org.jfree.ui.*;
+import org.springframework.beans.support.PropertyComparator;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.*;
 
 import com.keypoint.PngEncoder;
 
 import uk.ac.edu4all.data.Tweet;
+import uk.ac.edu4all.domain.Course;
 import uk.ac.edu4all.service.IEduService;
 
 @Controller
+@RequestMapping(value = "/data")
 public class DataController {
 
 	@Inject IEduService service;
@@ -58,17 +62,17 @@ public class DataController {
 		return tweets;
 	}
 	
-	@RequestMapping("/data/popchart")
+	@RequestMapping("/popchart")
 	public synchronized void popularChart(HttpServletResponse response) throws IOException {
 	    response.setContentType("image/png");
 	    if (chartExpired < new Date().getTime()) {
 			chartExpired = new Date().getTime() + 1000 * 60 * 60;	// regenerate once an hour
+			// get most popular courses and put them into a dataset
+			List<Course> courses = service.getMostPopularCourses(5);
 			DefaultCategoryDataset ds = new DefaultCategoryDataset();
-	        ds.addValue(4929, "System Engineering", "");
-	        ds.addValue(3800, "Introduction to Computational Finance", "");
-	        ds.addValue(3653, "Model Thinking", "");
-	        ds.addValue(3334, "Securing Digital Democracy", "");
-	        ds.addValue(3123, "Securing Digital Democracy 2", "");
+			for(Course c : courses) {
+				ds.addValue(c.getEnrollments().size(), c.getTitle(), "");
+			}
 			chart = ChartFactory.createBarChart3D("Most Popular Courses On Edu4All", "Courses", "Students", ds, PlotOrientation.VERTICAL, true, false, false);
 			chart.getLegend().setPosition(RectangleEdge.RIGHT);
 			chart.getTitle().setPaint(new Color(0,66,121));
@@ -91,9 +95,19 @@ public class DataController {
 	    response.getOutputStream().write( new PngEncoder(chart.createBufferedImage(900, 300, null), true, 0, 9 ).pngEncode() );
 	}	
 	
-	@RequestMapping("/data/course/{id}/image")
-	public synchronized void courseImage(HttpServletResponse response, @PathVariable int id) throws IOException {
+	@RequestMapping("/course/{id}/image")
+	public void courseImage(HttpServletResponse response, @PathVariable int id) throws IOException {
 	    response.setContentType("image/jpeg");
 	    response.getOutputStream().write(service.getCourse(id).getImage());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/rss/course/upcoming")
+	public String upcomingCoursesRSSFeed(Model model) {
+		List<Course> courses = service.getCoursesByCategory(0); 	// 0 for all courses
+		// get 6 courses staring soon
+		Collections.sort(courses, new PropertyComparator("startDate", true, true));
+		model.addAttribute("courses", courses.subList(0, 6));
+		return "rssFeed";
 	}
 }

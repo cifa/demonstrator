@@ -2,9 +2,7 @@ package uk.ac.edu4all.domain;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -72,7 +70,7 @@ public class Course implements Serializable, DomainObject {
 	//bi-directional many-to-one association to Similarity
 	@OneToMany(mappedBy="course2Bean")
 	private Set<Similarity> similarities2;
-	
+
 	@Transient
 	private MultipartFile imageFile;
 
@@ -183,10 +181,4 @@ public class Course implements Serializable, DomainObject {
 		this.imageFile = imageFile;
 	}
 
-	public boolean equals(Object obj) {
-		if(obj instanceof Course) {
-			return ((Course) obj).id == this.id;
-		}
-		return false;
-	}
 }

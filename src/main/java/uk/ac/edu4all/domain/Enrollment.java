@@ -17,24 +17,22 @@ public class Enrollment implements Serializable, DomainObject {
 	@EmbeddedId
 	private EnrollmentPK id;
 
-	private int courseRating;
-
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable=false)
 	private Date enrolDate;
 
-	@Column(nullable=false, length=32)
-	private String paymentTransactionNo;
-
-	//bi-directional many-to-one association to User
-	@ManyToOne
-	@JoinColumn(name="userId", nullable=false, insertable=false, updatable=false)
-	private User user;
+	@Column(nullable=false, length=255)
+	private String paymentTransactionId;
 
 	//bi-directional many-to-one association to Course
 	@ManyToOne
 	@JoinColumn(name="courseId", nullable=false, insertable=false, updatable=false)
 	private Course course;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	@JoinColumn(name="userId", nullable=false, insertable=false, updatable=false)
+	private User user;
 
 	public Enrollment() {
 	}
@@ -47,14 +45,6 @@ public class Enrollment implements Serializable, DomainObject {
 		this.id = id;
 	}
 
-	public int getCourseRating() {
-		return this.courseRating;
-	}
-
-	public void setCourseRating(int courseRating) {
-		this.courseRating = courseRating;
-	}
-
 	public Date getEnrolDate() {
 		return this.enrolDate;
 	}
@@ -63,20 +53,12 @@ public class Enrollment implements Serializable, DomainObject {
 		this.enrolDate = enrolDate;
 	}
 
-	public String getPaymentTransactionNo() {
-		return this.paymentTransactionNo;
+	public String getPaymentTransactionId() {
+		return this.paymentTransactionId;
 	}
 
-	public void setPaymentTransactionNo(String paymentTransactionNo) {
-		this.paymentTransactionNo = paymentTransactionNo;
-	}
-
-	public User getUser() {
-		return this.user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	public void setPaymentTransactionId(String paymentTransactionNo) {
+		this.paymentTransactionId = paymentTransactionNo;
 	}
 
 	public Course getCourse() {
@@ -85,6 +67,14 @@ public class Enrollment implements Serializable, DomainObject {
 
 	public void setCourse(Course course) {
 		this.course = course;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
