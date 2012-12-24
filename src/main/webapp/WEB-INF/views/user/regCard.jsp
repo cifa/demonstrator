@@ -29,7 +29,7 @@
 					</form:select>
 					<form:select path="year" id="year" cssErrorClass="error">
 						<c:forEach begin="0" end="10" varStatus="st">
-							<form:option value="${registration.currentYear}">${registration.currentYear + st.index}</form:option>
+							<form:option value="${registration.currentYear + st.index}">${registration.currentYear + st.index}</form:option>
 						</c:forEach>
 					</form:select>
 				</div>

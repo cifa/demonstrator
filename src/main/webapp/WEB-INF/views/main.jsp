@@ -17,6 +17,10 @@
 	<link type="text/css" rel="stylesheet" href="<s:url value="/resources/css/jquery.rating.css" />" />
 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 	<script type="text/javascript" src="<s:url value="/resources/js/whizzywig.js" />"></script>
+	<style type="text/css">
+		#featuredContent div {display: none;}
+		#featuredContent.orbit div {display: block;}
+	</style>
 </head>
 <body>
 	<div class="row" style="margin-top: 10px;">

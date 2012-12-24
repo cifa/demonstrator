@@ -95,7 +95,6 @@ public class EduServiceJpa implements IEduService {
 	@Transactional(readOnly=true)
 	public Map<String, Integer> getCategoryTree() {
 		Map<String, Integer> cats = new TreeMap<String, Integer>();
-		cats.put("All Courses", 0);
 		for(Treebranch tb : treebranchDao.getAll()) {
 			int id = tb.getId(); String name = "";
 			do {
@@ -198,20 +197,24 @@ public class EduServiceJpa implements IEduService {
 		}
 		// get student ids of students on course 1
 		List<Integer> studentIds = new ArrayList<Integer>();
-		for(Enrollment e : c1.getEnrollments()) {
-			studentIds.add(e.getUser().getId());
-		}
-		// how many of them are on the second course as well
-		float sharedStudents = 0;
-		for(Enrollment e : c2.getEnrollments()) {
-			if(studentIds.contains(e.getUser().getId())) sharedStudents++;
-			if(studentIds.size() == sharedStudents) break;
-		}
-		// increase similarity if students are studying both
-		if(sharedStudents > 0) {
-			// just simple percentages -> a better algorithm needed if for real
-			similarity += 60 * (sharedStudents/c1.getEnrollments().size() + 
-					sharedStudents/c2.getEnrollments().size()) / 2;
+		try{
+			for(Enrollment e : c1.getEnrollments()) {
+				studentIds.add(e.getUser().getId());
+			}
+			// how many of them are on the second course as well
+			float sharedStudents = 0;
+			for(Enrollment e : c2.getEnrollments()) {
+				if(studentIds.contains(e.getUser().getId())) sharedStudents++;
+				if(studentIds.size() == sharedStudents) break;
+			}
+			// increase similarity if students are studying both
+			if(sharedStudents > 0) {
+				// just simple percentages -> a better algorithm needed if for real
+				similarity += 60 * (sharedStudents/c1.getEnrollments().size() + 
+						sharedStudents/c2.getEnrollments().size()) / 2;
+			}
+		} catch(NullPointerException ex) {
+			// no enrolments when saving a new course
 		}
 		return similarity;
 	}

@@ -1,6 +1,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 	<div class="row" style="margin-top: 10px; margin-bottom: 10px;">
 		<div class="eight columns" style="font-weight: bold; text-align: center;">Course Category:</div>
@@ -27,9 +28,7 @@
 		</div>
 		<div class="two columns">
 		<security:authorize access="hasRole('A')">
-			<c:if test="${catId != 0 }">
-				<a class="button alert" style="padding-right: 19px;" href="<s:url value="/admin/branch/${catId}/course" />">New Course</a>
-			</c:if>
+			<a class="button alert" style="padding-right: 19px;" href="<s:url value="/admin/course" />">New Course</a>
 		</security:authorize>
 		</div>
 		<div class="three columns right">
@@ -74,10 +73,13 @@
 					  		<a href='<s:url value="/course/${course.id}" />'>Course Details</a>
 					    	<span></span>
 					  		<ul>
-					    		<li><a href="<s:url value="/user/course/${course.id}/registration" />">Register</a></li>
+							<c:choose>
+								<c:when test="${userCourses.contains(course) }"><li><a href="#">Go To Lessons</a></li></c:when>
+								<c:otherwise><li><a href="<s:url value="/user/course/${course.id}/registration" />">Register</a></li></c:otherwise>
+							</c:choose>
 								<security:authorize access="hasRole('A')">
 									<li class="divider"></li>
-					    			<li><a href="<s:url value="/admin/branch/${course.treebranch.id}/course/${course.id}" />">Edit This Course</a></li>
+					    			<li><a href="<s:url value="/admin/course/${course.id}" />">Edit This Course</a></li>
 								</security:authorize>						
 					  		</ul>
 						</div>

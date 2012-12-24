@@ -1,7 +1,8 @@
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib prefix="t" uri="http://tiles.apache.org/tags-tiles"%>
 
 <jsp:useBean class="java.text.SimpleDateFormat" id="datetimeFormat" scope="page">
 	<% datetimeFormat.applyPattern("dd/MM/yyyy 'at' HH:mm:ss"); %>
@@ -26,12 +27,15 @@
 			</div>
 			<div class="six columns">
 				<div class="medium alert button split dropdown right">
-					<a href="<s:url value="/user/course/${course.id}/registration" />">Register</a>
+					<c:choose>
+						<c:when test="${registered }"><a href="#">Go To Lessons</a></c:when>
+						<c:otherwise><a href="<s:url value="/user/course/${course.id}/registration" />">Register</a></c:otherwise>
+					</c:choose>
 					<span></span>
 					<ul>
 						<security:authorize access="hasRole('A')">
 							<li class="divider"></li>
-							<li><a href="<s:url value="/admin/branch/${course.treebranch.id}/course/${course.id}" />">Edit Course</a></li>
+							<li><a href="<s:url value="/admin/course/${course.id}" />">Edit Course</a></li>
 						</security:authorize>
 						<li class="divider"></li>
 						<li><a href="<s:url value="/course" />">Go Back</a></li>
@@ -59,15 +63,7 @@
 		<security:authorize access="isAuthenticated()">
 			<form:form modelAttribute="comment" type="post" >
 				<s:hasBindErrors name="comment">
-					<div id="myModal" class="reveal-modal alert-box alert" style="position: fixed;">
-						<a class="close-reveal-modal">×</a>
-						<div style="font-size: x-large; padding-bottom: 15px;">Oops. There are some problems</div>
-						<ul style="margin-left: 25px;"><form:errors path="*" element="li" delimiter="</li><li>"/></ul>
-					</div>
-					<script type="text/javascript">//<![CDATA[
-					$(window).load(function() { $("#myModal").reveal();})
-					//]]>
-					</script>
+					<t:insertAttribute name="formError" />
 				</s:hasBindErrors>
 				<div class="row" style="padding-bottom: 10px;">
 				  	<div class="six columns">
