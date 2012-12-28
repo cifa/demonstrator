@@ -33,7 +33,7 @@ import uk.ac.edu4all.service.IEduService;
 public class DataController {
 
 	@Inject IEduService service;
-	private String twitUrl = "http://search.twitter.com/search.atom?q=%23coursera&rpp=5&include_entities=true&result_type=mixed";
+	private String twitUrl = "http://search.twitter.com/search.atom?q=%23coursera&rpp=5&include_entities=true&result_type=mixed&lang=en";
 	private List<Tweet> tweets = new ArrayList<Tweet>();
 	private long twitExpired, chartExpired;
 	private JFreeChart chart;
@@ -64,7 +64,6 @@ public class DataController {
 	
 	@RequestMapping("/popchart")
 	public synchronized void popularChart(HttpServletResponse response) throws IOException {
-	    response.setContentType("image/png");
 	    if (chartExpired < new Date().getTime()) {
 			chartExpired = new Date().getTime() + 1000 * 60 * 60;	// regenerate once an hour
 			// get most popular courses and put them into a dataset
@@ -92,6 +91,7 @@ public class DataController {
 			chart.getLegend().setItemFont(new Font("SansSerif", Font.BOLD, 14));
 	    }
 	    // send the chart
+	    response.setContentType("image/png");
 	    response.getOutputStream().write( new PngEncoder(chart.createBufferedImage(900, 300, null), true, 0, 9 ).pngEncode() );
 	}	
 	
@@ -105,9 +105,14 @@ public class DataController {
 	@RequestMapping("/rss/course/upcoming")
 	public String upcomingCoursesRSSFeed(Model model) {
 		List<Course> courses = service.getCoursesByCategory(0); 	// 0 for all courses
-		// get 6 courses staring soon
+		// get 6 courses starting soon
 		Collections.sort(courses, new PropertyComparator("startDate", true, true));
-		model.addAttribute("courses", courses.subList(0, 6));
+		List<Course> upcoming = new ArrayList<Course>(6);
+		for(Course c : courses) {
+			if(! c.getStartDate().before(new Date())) upcoming.add(c);
+			if(upcoming.size() == 6) break;
+		}
+		model.addAttribute("courses", upcoming);
 		return "rssFeed";
 	}
 }

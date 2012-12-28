@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import uk.ac.edu4all.data.CourseRegistration;
 import uk.ac.edu4all.domain.Comment;
 import uk.ac.edu4all.domain.Course;
@@ -20,7 +18,7 @@ public interface IEduService {
 
 	public abstract Treebranch getBranch(Integer id);
 
-	public abstract void saveCourse(Course course, MultipartFile image) throws IOException;
+	public abstract void saveCourse(Course course) throws IOException;
 
 	public abstract List<Course> getCoursesByCategory(int categoryId);
 

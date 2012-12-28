@@ -25,7 +25,7 @@
 <body>
 	<div class="row" style="margin-top: 10px;">
 		<div class="five columns">
-			<a href="<s:url value="/" />"> <img src="<s:url value="/resources/images/logo.png?v=2" />" alt="Edu4All Logo" /></a>
+			<a href="<s:url value="/" />"> <img src="<s:url value="/resources/images/logo.png" />" alt="Edu4All Logo" /></a>
 		</div>
 		<div class="seven columns">
 			<ul class="nav-bar right">
@@ -64,6 +64,15 @@
 	<div class="row"><hr style="padding: 0; margin: 5px 0;" /></div>
 
 	<t:insertAttribute name="pageBody" />
+	
+	<div class="row"><hr style="padding: 0; margin: 5px 0;" /></div>
+	<div class="row">
+		<div class="four columns offset-by-eight" style="text-align: right;">
+			<a href="https://twitter.com/coursera"><img src="<s:url value="/resources/images/iconTwitter.png" />" alt="Twitter Icon" /></a>
+			<a href="https://en-gb.facebook.com/Coursera"><img src="<s:url value="/resources/images/iconFacebook.png" />" alt="Facebook Icon" /></a>
+			<a href="<s:url value="/data/rss/course/upcoming" />"><img src="<s:url value="/resources/images/iconRss.png" />" alt="RSS Icon" /></a>
+		</div>
+	</div>
 
 	<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION.message}">
 		<div id="loginModal" class="reveal-modal medium alert-box alert" style="position: fixed; text-align: center;">
@@ -79,6 +88,6 @@
 	<script type="text/javascript" src="<s:url value="/resources/foundation/javascripts/foundation.min.js" />"></script>
 	<script type="text/javascript" src="<s:url value="/resources/foundation/javascripts/app.js" />"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-	<script type="text/javascript"src="<s:url value="/resources/js/jquery.rating.js" />"></script>
+	<script type="text/javascript" src="<s:url value="/resources/js/jquery.rating.js" />"></script>
 </body>
 </html>

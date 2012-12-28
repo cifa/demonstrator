@@ -12,7 +12,6 @@ public class StayOnPageRedirectStrategy implements RedirectStrategy {
 	@Override
 	public void sendRedirect(HttpServletRequest request, HttpServletResponse response,
 			String arg2) throws IOException {
-		System.out.println(request.getHeader("Referer"));
 		response.sendRedirect(request.getHeader("Referer"));
 	}
 

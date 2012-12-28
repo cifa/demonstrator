@@ -12,21 +12,19 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import uk.ac.edu4all.dao.jpa.*;
+import uk.ac.edu4all.dao.*;
 import uk.ac.edu4all.data.CourseRegistration;
 import uk.ac.edu4all.domain.*;
 
 @Service("EduService")
-public class EduServiceJpa implements IEduService {
+public class EduService implements IEduService {
 
-	@Inject private UserDaoJpa userDao;
-	@Inject private CourseDaoJpa courseDao;
-	@Inject private TreebranchDaoJpa treebranchDao;
-	@Inject private CommentDaoJpa commentDao;
-	@Inject private SimilarityDaoJpa similarityDao;
-	@Inject private EnrollmentDaoJpa enrollmentDaoJpa;
+	@Inject private UserDao userDao;
+	@Inject private CourseDao courseDao;
+	@Inject private TreebranchDao treebranchDao;
+	@Inject private CommentDao commentDao;
+	@Inject private SimilarityDao similarityDao;
+	@Inject private EnrollmentDao enrollmentDaoJpa;
 
 	@Override
 	public List<User> getUsers() {
@@ -47,11 +45,11 @@ public class EduServiceJpa implements IEduService {
 
 	@Override
 	@Transactional
-	public void saveCourse(Course course, MultipartFile image)
+	public void saveCourse(Course course)
 			throws IOException {
 		// scale and convert into a JPEG
-		if (image != null) {
-			BufferedImage img = ImageIO.read(new ByteArrayInputStream(image.getBytes()));
+		if (course.getImageFile() != null) {
+			BufferedImage img = ImageIO.read(new ByteArrayInputStream(course.getImageFile().getBytes()));
 			BufferedImage scaledImg = new BufferedImage(350,(int) (img.getHeight() * (350.0 / img.getWidth())), img.getType());
 			Graphics2D g = scaledImg.createGraphics();
 			g.drawImage(img, 0, 0, 350, (int) (img.getHeight() * (350.0 / img.getWidth())), null);
@@ -77,6 +75,7 @@ public class EduServiceJpa implements IEduService {
 	@Override
 	@Transactional(readOnly=true)
 	public List<Course> getCoursesByCategory(int categoryId) {
+		// category id ZERO means all courses
 		if(categoryId == 0) {
 			return courseDao.getAll();
 		} else {

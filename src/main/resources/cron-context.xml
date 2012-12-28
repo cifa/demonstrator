@@ -8,7 +8,7 @@
 	<!-- EXPIRED BOOKINGS CLEAN UP -->
 	<bean id="similarityUpdateCronJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 		<property name="targetObject">
-			<bean class="uk.ac.edu4all.service.EduServiceJpa" />
+			<bean class="uk.ac.edu4all.service.EduService" />
 		</property>
 		<property name="targetMethod" value="updateSimilarityIndexes" />
 	</bean>

@@ -15,15 +15,13 @@
 		</div>
 		<div class="seven columns">
 			<h3>${course.title}</h3>
-			<div class="three columns">
-				Course Starts: <br /><br />
-				Duration: <br /><br /> 
-				Price:
-			</div>
-			<div class="three columns">
-				${dateFormat.format(course.startDate)} <br /><br /> 
-				${course.length } weeks <br /><br /> 
-				&pound;${course.price }
+			<div class="six columns">
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">Course Starts:</div>
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">${dateFormat.format(course.startDate)}</div>
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">Duration:</div>
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">${course.length } weeks</div>
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">Price:</div>
+				<div class="six columns" style="padding: 0; margin-bottom: 10px;">&pound;${course.price }</div>						
 			</div>
 			<div class="six columns">
 				<div class="medium alert button split dropdown right">

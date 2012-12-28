@@ -15,8 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.multipart.MultipartFile;
-
 import uk.ac.edu4all.domain.Course;
 import uk.ac.edu4all.domain.Treebranch;
 import uk.ac.edu4all.service.IEduService;
@@ -63,13 +61,13 @@ public class CourseAdminController {
 	
 	@RequestMapping(value={"/course", "/course/{courseID}"}, method=RequestMethod.POST)
 	public String saveCourse(Model model, @ModelAttribute("course") @Valid Course course, BindingResult result, 
-			@RequestParam("imageFile") MultipartFile image, SessionStatus status) throws IOException {
-		if(image == null || image.getContentType().indexOf("image") == -1) {
-			image = null;
+			SessionStatus status) throws IOException {
+		if(course.getImageFile() == null || course.getImageFile().getContentType().indexOf("image") == -1) {
+			course.setImageFile(null);
 			if(course.getId() == 0) result.rejectValue("imageFile", "", "A valid Course Image is Required");
 		}
 		if(! result.hasErrors()) {
-			service.saveCourse(course, image);
+			service.saveCourse(course);
 			status.setComplete();
 			return "redirect:/course/" + course.getId();
 		}

@@ -13,15 +13,15 @@
 			<div class="row">
 				<div class="twelve columns">
 				<label for="street">House Name/Number, Street</label>
-				<form:input path="street" id="street" cssErrorClass="error" />
+				<form:input path="street" id="street" cssErrorClass="error" autocomplete="off" />
 				</div>
 				<div class="six columns">
 					<label for="town">Town</label>
-					<form:input path="town" id="town" cssErrorClass="error" />
+					<form:input path="town" id="town" cssErrorClass="error" autocomplete="off" />
 				</div>
 				<div class="six columns">
 					<label for="postcode">Postcode</label>
-					<form:input path="postcode" id="postcode" cssErrorClass="error" />
+					<form:input path="postcode" id="postcode" cssErrorClass="error" autocomplete="off" />
 				</div>
 				<div class="twelve columns" style="margin-bottom: 15px;">
 					<input type="submit" value="Submit" class="radius button" />

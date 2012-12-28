@@ -30,13 +30,12 @@ public class RssViewer extends AbstractRssFeedView {
 		List<Item> items = new ArrayList<Item>();
 		for(Course course : (List<Course>) model.get("courses")) {
 			Item item = new Item();
-			Content content = new Content();
-			content.setType("html");
-			content.setValue(course.getDescription());
-			item.setContent(content);
-			item.setAuthor("www.Edu4All.com");
+			Description desc = new Description();
+			desc.setValue(course.getTitle() + " starts on " + dateFormat.format(course.getStartDate()) + 
+					" and runs for " + course.getLength() + " weeks (cost: &pound;" + course.getPrice() + ")");
+			item.setDescription(desc);
 			item.setTitle(course.getTitle());
-			item.setUri("http://" + request.getServerName() + ":" + request.getServerPort()
+			item.setLink("http://" + request.getServerName() + ":" + request.getServerPort()
 						+ request.getContextPath() + "/course/" + course.getId());
 			items.add(item);
 		}
@@ -49,7 +48,7 @@ public class RssViewer extends AbstractRssFeedView {
  
 		feed.setTitle("Upcoming Courses on Edu4All");
 		feed.setDescription("Come and learn with us");
-		feed.setLink("http://www.edu4all.com");
+		feed.setLink("http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath());
  
 		super.buildFeedMetadata(model, feed, request);
 	}

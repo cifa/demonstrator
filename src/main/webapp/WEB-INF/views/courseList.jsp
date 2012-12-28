@@ -20,7 +20,7 @@
 			<ul>
 				<c:forEach var="name" items="${categoryMap.keySet()}">
 					<c:if test="${categoryMap.get(name) != catId }">
-						<li><a href="<s:url value="/course?cat=${categoryMap.get(name)}&sort=${sortIndex}" />">${name}</a></li>					
+						<li><a href="<s:url value="/course?cat=${categoryMap.get(name)}&amp;sort=${sortIndex}" />">${name}</a></li>					
 						<li class="divider"></li>
 					</c:if>
 				</c:forEach>
@@ -38,7 +38,7 @@
 				<ul>
 					<c:forEach var="name" items="${sortNames}" varStatus="loop" >
 						<c:if test="${sortIndex != loop.index }">
-							<li><a href="<s:url value="/course?cat=${catId }&sort=${loop.index }" />">${name}</a></li>
+							<li><a href="<s:url value="/course?cat=${catId }&amp;sort=${loop.index }" />">${name}</a></li>
 							<li class="divider"></li>
 						</c:if>
 					</c:forEach>
@@ -54,19 +54,13 @@
 				</div>
 				<div class="seven columns">
 					<h3>${course.title}</h3>
-					<div class="three columns">
-						Course Starts:
-						<br /><br />
-						Duration:
-						<br /><br />
-						Price:
-					</div>
-					<div class="three columns">			
-						${dateFormat.format(course.startDate)}
-						<br /><br />
-						${course.length } weeks
-						<br /><br />
-						&pound;${course.price }
+					<div class="six columns">
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">Course Starts:</div>
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">${dateFormat.format(course.startDate)}</div>
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">Duration:</div>
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">${course.length } weeks</div>
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">Price:</div>
+						<div class="six columns" style="padding: 0; margin-bottom: 10px;">&pound;${course.price }</div>						
 					</div>
 					<div class="six columns">
 						<div class="medium alert button split dropdown right">
